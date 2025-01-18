@@ -1,0 +1,82 @@
+:root {
+  --primary-color: #FFB74D;
+  --secondary-color: #90CAF9;
+  --background-dark: #2A2A2E;
+  --background-light: #3A3A3E;
+  --text-color: #FFFFFF;
+  --gradient-primary: linear-gradient(45deg, #FFB74D 30%, #FFA726 90%);
+  --gradient-secondary: linear-gradient(45deg, #90CAF9 30%, #64B5F6 90%);
+  --gradient-background: linear-gradient(145deg, #2A2A2E 0%, #1A1A1E 100%);
+  --shadow-soft: 0 4px 14px 0 rgba(0,0,0,0.2);
+  --shadow-strong: 0 8px 32px 0 rgba(0,0,0,0.3);
+  --border-radius: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--background-dark);
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+/* Scrollbar stilleri */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFA726;
+}
+
+/* Seçim stilleri */
+::selection {
+  background: var(--primary-color);
+  color: var(--background-dark);
+}
+
+/* Animasyonlar */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Geçiş efektleri */
+.MuiButton-root,
+.MuiPaper-root,
+.MuiCard-root {
+  transition: all 0.3s ease-in-out !important;
+}
+
+/* Gölge efektleri */
+.hover-shadow {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.hover-shadow:hover {
+  box-shadow: var(--shadow-strong);
+}
