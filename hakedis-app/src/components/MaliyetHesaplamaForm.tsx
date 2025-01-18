@@ -40,18 +40,13 @@ export default function MaliyetHesaplamaForm({
     setSecilenImalat(imalat);
 
     // Malzeme listesini oluştur
-    const yeniMalzemeler = imalat.malzemeler.map(malzeme => {
-      const malzemeFiyat = malzemeFiyatlari.find(m => m.id === malzeme.malzemeId);
-      const birimStr = malzemeBirimMap[malzeme.malzemeId].toUpperCase();
-      const birim = (['AD', 'KG', 'M3', 'M2', 'M', 'TOP', 'TON'].includes(birimStr) ? birimStr : 'AD') as BirimTuru;
-      return {
-        id: malzeme.malzemeId,
-        adi: malzemeAdiMap[malzeme.malzemeId],
-        birim,
-        birimFiyat: malzemeFiyat?.birimFiyat || malzeme.birimFiyat || 0,
-        sarfiyatOrani: malzeme.sarfiyatOrani
-      };
-    });
+    const malzemeler: Malzeme[] = imalat.malzemeler.map(malzeme => ({
+      id: malzeme.malzemeId,
+      adi: malzemeAdiMap[malzeme.malzemeId] || '',
+      birim: malzemeBirimMap[malzeme.malzemeId] as BirimTuru || 'M2',
+      birimFiyat: malzeme.birimFiyat,
+      sarfiyatOrani: malzeme.sarfiyatOrani
+    }));
 
     // Seçili malzemeleri sıfırla
     setSecilenMalzemeler({});
@@ -59,7 +54,7 @@ export default function MaliyetHesaplamaForm({
     onChange({
       ...data,
       imalatId,
-      malzemeler: yeniMalzemeler,
+      malzemeler,
       secilenMalzemeler: {},
       secilenDuvarMalzeme: undefined,
       secilenDuvarKalinlik: undefined

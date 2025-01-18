@@ -79,11 +79,14 @@ export const MalzemeFiyatTakipPage: React.FC = () => {
   const [malzemeler, setMalzemeler] = useState<MalzemeFiyatTakip[]>([]);
   const [yeniMalzemeDialogOpen, setYeniMalzemeDialogOpen] = useState(false);
   const [yeniMalzeme, setYeniMalzeme] = useState<Partial<MalzemeFiyatTakip>>({
+    id: '',
     adi: '',
-    birim: 'AD' as BirimTuru,
-    birimFiyat: undefined,
-    otomatikGuncelleme: false,
-    sarfiyatOrani: 1
+    birim: 'M2' as BirimTuru,
+    birimFiyat: 0,
+    sarfiyatOrani: 1,
+    otomatikGuncelleme: true,
+    sonGuncellenmeTarihi: new Date(),
+    fiyatGecmisi: []
   });
   const [secilenAmbalajTuru, setSecilenAmbalajTuru] = useState<AmbalajTuru | undefined>(undefined);
   const [secilenAmbalajMiktari, setSecilenAmbalajMiktari] = useState<number | undefined>(undefined);
@@ -109,11 +112,14 @@ export const MalzemeFiyatTakipPage: React.FC = () => {
   const handleYeniMalzemeDialogClose = () => {
     setYeniMalzemeDialogOpen(false);
     setYeniMalzeme({
+      id: '',
       adi: '',
-      birim: 'AD' as BirimTuru,
-      birimFiyat: undefined,
-      otomatikGuncelleme: false,
-      sarfiyatOrani: 1
+      birim: 'M2' as BirimTuru,
+      birimFiyat: 0,
+      sarfiyatOrani: 1,
+      otomatikGuncelleme: true,
+      sonGuncellenmeTarihi: new Date(),
+      fiyatGecmisi: []
     });
     setSecilenAmbalajTuru(undefined);
     setSecilenAmbalajMiktari(undefined);

@@ -4,18 +4,23 @@ import { getAylikEnflasyonOrani, hesaplaGuncelFiyat } from './enflasyonService';
 const MALZEME_FIYAT_KEY = 'malzeme_fiyatlari';
 
 export const getMalzemeFiyatlari = (): MalzemeFiyatTakip[] => {
-  const data = localStorage.getItem(MALZEME_FIYAT_KEY);
-  if (!data) return [];
+  const varsayilanMalzemeler: MalzemeFiyatTakip[] = [
+    {
+      id: 'duvar_malzemesi',
+      adi: 'Duvar Malzemesi',
+      birim: 'AD' as BirimTuru,
+      birimFiyat: 5.5,
+      sarfiyatOrani: 1,
+      otomatikGuncelleme: true,
+      sonGuncellenmeTarihi: new Date(),
+      fiyatGecmisi: [
+        { tarih: new Date(), birimFiyat: 5.5 }
+      ]
+    },
+    // ... diğer malzemeler için de aynı şekilde BirimTuru kullanılacak
+  ];
   
-  const malzemeler: MalzemeFiyatTakip[] = JSON.parse(data);
-  return malzemeler.map(malzeme => ({
-    ...malzeme,
-    sonGuncellenmeTarihi: new Date(malzeme.sonGuncellenmeTarihi),
-    fiyatGecmisi: malzeme.fiyatGecmisi.map(gecmis => ({
-      ...gecmis,
-      tarih: new Date(gecmis.tarih)
-    }))
-  }));
+  return varsayilanMalzemeler;
 };
 
 export const kaydetMalzemeFiyat = (malzeme: MalzemeFiyatTakip): void => {
