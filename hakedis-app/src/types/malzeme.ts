@@ -56,6 +56,7 @@ export interface ImalatTuru {
     birimFiyat: number;
   }[];
   duvarOzellikleri?: DuvarOzellikleri;
+  temelImalat?: boolean;
 }
 
 export interface MaliyetHesaplamaData {
@@ -73,11 +74,11 @@ export interface MaliyetSonuc {
   malzemeler: {
     adi: string;
     birim: BirimTuru;
-    birimFiyat: number;  // Artık kullanılmıyor ama geriye uyumluluk için tutuyoruz
     gerekenMiktar: number;
-    toplamMaliyet: number;  // Artık kullanılmıyor ama geriye uyumluluk için tutuyoruz
+    birimFiyat: number;
+    toplamMaliyet: number;
   }[];
-  toplamMaliyet: number;  // Artık kullanılmıyor ama geriye uyumluluk için tutuyoruz
+  toplamMaliyet: number;
 }
 
 export interface MalzemeFiyatGecmisi {

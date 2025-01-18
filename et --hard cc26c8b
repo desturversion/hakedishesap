@@ -1,0 +1,10 @@
+fe38265 - Fix: Update Vercel configuration for nested project structure
+cd8c2f7 - Fix: Update build process with clean setup
+692eff0 - Fix: Add cache cleaning and global vite installation
+ca1a71b - Fix: Add cache cleaning and global vite installation to build process
+414c3e6 - Fix: Add Vercel configuration and update build scripts
+49386fe - Fix: Update build command to use direct path to vite
+f05dbda - Fix: Optimize package.json and add Vercel configuration
+e88372a - Fix: Update Vite and TypeScript versions
+d334534 - Fix: Update default materials list and fix special characters in IDs
+cc26c8b - Fix: Restore default materials list

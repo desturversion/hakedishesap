@@ -20,12 +20,12 @@ const MALZEME_BIRIM_MAP: { [key: string]: string } = {
   'eps': 'm²',
   'yapisalYapistirici': 'kg',
   'dubel': 'adet',
-  'fileSivaси': 'kg',
-  'sиvaFilesi': 'm²',
+  'fileSivasi': 'kg',
+  'sivaFilesi': 'm²',
   'tasyunu': 'm²',
   'sap_filesi': 'm²',
   'hazirSiva': 'kg',
-  'sиvaAstar': 'kg',
+  'sivaAstar': 'kg',
   'icCepheAstar': 'lt',
   'icCepheBoya': 'lt',
   'disCepheAstar': 'lt',
@@ -43,12 +43,12 @@ const MALZEME_ADI_MAP: { [key: string]: string } = {
   'eps': 'EPS Levha',
   'yapisalYapistirici': 'Yapısal Yapıştırıcı',
   'dubel': 'Dübel',
-  'fileSivaси': 'File Sıvası',
-  'sиvaFilesi': 'Sıva Filesi',
+  'fileSivasi': 'File Sıvası',
+  'sivaFilesi': 'Sıva Filesi',
   'tasyunu': 'Taşyünü Levha',
   'sap_filesi': 'Şap Filesi',
   'hazirSiva': 'Hazır Sıva',
-  'sиvaAstar': 'Sıva Astarı',
+  'sivaAstar': 'Sıva Astarı',
   'icCepheAstar': 'İç Cephe Astarı',
   'icCepheBoya': 'İç Cephe Boyası',
   'disCepheAstar': 'Dış Cephe Astarı',
@@ -79,72 +79,198 @@ const getMalzemeHaritalari = () => {
 // Varsayılan imalat türleri
 const defaultImalatTurleri: ImalatTuru[] = [
   {
-    id: '1',
-    adi: 'Duvar İmalatı',
-    birim: 'M2' as BirimTuru,
+    id: "1",
+    adi: "Duvar İmalatı",
+    birim: "M2" as BirimTuru,
     malzemeler: [
-      { malzemeId: 'duvar_malzemesi', sarfiyatOrani: 1, birimFiyat: 0 },
-      { malzemeId: 'cimento', sarfiyatOrani: 0.5, birimFiyat: 0 },
-      { malzemeId: 'kum', sarfiyatOrani: 0.1, birimFiyat: 0 }
+      { malzemeId: "kum", sarfiyatOrani: 0.025, birimFiyat: 0 },
+      { malzemeId: "cimento", sarfiyatOrani: 0.11, birimFiyat: 0 },
+      { malzemeId: "kama", sarfiyatOrani: 0.24, birimFiyat: 0 },
+      { malzemeId: "lama", sarfiyatOrani: 0.206, birimFiyat: 0 },
+      { malzemeId: "kopuk_600ml", sarfiyatOrani: 0.071, birimFiyat: 0 },
+      { malzemeId: "bims_10", sarfiyatOrani: 12.5, birimFiyat: 0 },
+      { malzemeId: "bims_20", sarfiyatOrani: 12.5, birimFiyat: 0 }
     ],
     duvarOzellikleri: {
       malzemeler: [
         {
-          id: 'tugla',
-          adi: 'Tuğla',
+          id: "bims",
+          adi: "Bims Blok",
           kalinliklar: [
-            { id: 'tugla_85', adi: '8.5cm', sarfiyat: 16, harcOrani: 0.8 },
-            { id: 'tugla_135', adi: '13.5cm', sarfiyat: 16, harcOrani: 1 },
-            { id: 'tugla_185', adi: '18.5cm', sarfiyat: 16, harcOrani: 1.2 }
+            { id: "85", adi: "8.5cm", sarfiyat: 12.5, harcOrani: 0.46 },
+            { id: "125", adi: "15 cm", sarfiyat: 12.5, harcOrani: 0.81 },
+            { id: "185", adi: "18.5cm", sarfiyat: 12.5, harcOrani: 1 }
           ]
         },
         {
-          id: 'gazbeton',
-          adi: 'Gazbeton',
+          id: "tugla",
+          adi: "Tuğla",
           kalinliklar: [
-            { id: 'gazbeton_10', adi: '10cm', sarfiyat: 5, harcOrani: 0.8 },
-            { id: 'gazbeton_15', adi: '15cm', sarfiyat: 5, harcOrani: 1 },
-            { id: 'gazbeton_20', adi: '20cm', sarfiyat: 5, harcOrani: 1.2 }
+            { id: "85", adi: "8.5cm", sarfiyat: 37, harcOrani: 0.46 },
+            { id: "135", adi: "13.5cm", sarfiyat: 28, harcOrani: 0.73 },
+            { id: "185", adi: "18.5cm", sarfiyat: 37, harcOrani: 1 }
           ]
         },
         {
-          id: 'bims',
-          adi: 'Bims',
+          id: "gazbeton",
+          adi: "Gazbeton",
           kalinliklar: [
-            { id: 'bims_10', adi: '10cm', sarfiyat: 8, harcOrani: 0.8 },
-            { id: 'bims_15', adi: '15cm', sarfiyat: 8, harcOrani: 1 },
-            { id: 'bims_20', adi: '20cm', sarfiyat: 8, harcOrani: 1.2 }
+            { id: "85", adi: "8.5cm", sarfiyat: 6.66, harcOrani: 0.46 },
+            { id: "125", adi: "12.5cm", sarfiyat: 6.66, harcOrani: 0.68 },
+            { id: "185", adi: "18.5cm", sarfiyat: 6.66, harcOrani: 1 }
           ]
         }
       ]
-    }
+    },
+    temelImalat: true
   },
   {
-    id: '2',
-    adi: 'Dış Cephe Mantolama',
-    birim: 'M2' as BirimTuru,
+    id: "imalat_1737117003146",
+    adi: "Şap İmalatım",
+    birim: "M2" as BirimTuru,
     malzemeler: [
-      { malzemeId: 'yapisalYapistirici', sarfiyatOrani: 5, birimFiyat: 0 },
-      { malzemeId: 'eps', sarfiyatOrani: 1, birimFiyat: 0 },
-      { malzemeId: 'dubel', sarfiyatOrani: 6, birimFiyat: 0 },
-      { malzemeId: 'fileSivaси', sarfiyatOrani: 5, birimFiyat: 0 },
-      { malzemeId: 'sиvaFilesi', sarfiyatOrani: 1.1, birimFiyat: 0 },
-      { malzemeId: 'disCepheAstar', sarfiyatOrani: 0.15, birimFiyat: 0 },
-      { malzemeId: 'disCepheBoya', sarfiyatOrani: 0.3, birimFiyat: 0 }
+      { malzemeId: "cimento", sarfiyatOrani: 0.5, birimFiyat: 0 },
+      { malzemeId: "kum", sarfiyatOrani: 0.084, birimFiyat: 0 },
+      { malzemeId: "silte", sarfiyatOrani: 1.1, birimFiyat: 0 }
     ],
-    duvarOzellikleri: undefined
+    temelImalat: true
   },
   {
-    id: '3',
-    adi: 'İç Cephe Sıva',
-    birim: 'M2' as BirimTuru,
+    id: "imalat_1737220100341",
+    adi: "Cephe Kabasıva",
+    birim: "M2" as BirimTuru,
     malzemeler: [
-      { malzemeId: 'hazirSiva', sarfiyatOrani: 18, birimFiyat: 0 },
-      { malzemeId: 'sиvaAstar', sarfiyatOrani: 0.15, birimFiyat: 0 },
-      { malzemeId: 'icCepheAstar', sarfiyatOrani: 0.12, birimFiyat: 0 },
-      { malzemeId: 'icCepheBoya', sarfiyatOrani: 0.24, birimFiyat: 0 }
+      { malzemeId: "kum", sarfiyatOrani: 0.084, birimFiyat: 0 },
+      { malzemeId: "cimento", sarfiyatOrani: 0.25, birimFiyat: 0 },
+      { malzemeId: "brut_beton_astari", sarfiyatOrani: 0.0089909, birimFiyat: 0 },
+      { malzemeId: "sivamatik_hazir_siva", sarfiyatOrani: 0.8857, birimFiyat: 0 }
     ],
-    duvarOzellikleri: undefined
+    temelImalat: true
+  },
+  {
+    id: "imalat_1737222245692",
+    adi: "Seramik Yapılması",
+    birim: "M2" as BirimTuru,
+    malzemeler: [
+      { malzemeId: "seramik_kose_profili", sarfiyatOrani: 0.045, birimFiyat: 0 },
+      { malzemeId: "seramik_yapistirici", sarfiyatOrani: 0.025, birimFiyat: 0 },
+      { malzemeId: "seramik_artisi", sarfiyatOrani: 4, birimFiyat: 0 },
+      { malzemeId: "derz_dolgu", sarfiyatOrani: 0.02, birimFiyat: 0 }
+    ],
+    temelImalat: true
+  },
+  {
+    id: "imalat_1737222333261",
+    adi: "Makine Alçı+ Kaba Karışık+ Saten",
+    birim: "M2" as BirimTuru,
+    malzemeler: [
+      { malzemeId: "makine_alci", sarfiyatOrani: 0.5714, birimFiyat: 0 },
+      { malzemeId: "perlitli_siva_alcisi", sarfiyatOrani: 0.171428, birimFiyat: 0 },
+      { malzemeId: "baklava_dilimli_alci_kosebent", sarfiyatOrani: 0.025, birimFiyat: 0 },
+      { malzemeId: "alci_kosebent_profili", sarfiyatOrani: 0.3, birimFiyat: 0 },
+      { malzemeId: "ano_citasi", sarfiyatOrani: 0.4, birimFiyat: 0 },
+      { malzemeId: "brüt_beton_astari", sarfiyatOrani: 0.022, birimFiyat: 0 },
+      { malzemeId: "donati_filesi", sarfiyatOrani: 0.1, birimFiyat: 0 },
+      { malzemeId: "saten_alci", sarfiyatOrani: 0.04, birimFiyat: 0 }
+    ],
+    temelImalat: true
+  },
+  {
+    id: "imalat_1737222567132",
+    adi: "Duvarda Astar + 2 kat Boya",
+    birim: "M2" as BirimTuru,
+    malzemeler: [
+      { malzemeId: "ic_cephe_boyasi", sarfiyatOrani: 0.25, birimFiyat: 0 }
+    ],
+    temelImalat: true
+  },
+  {
+    id: "imalat_1737222629828",
+    adi: "Çimento Esaslı Hazır Sıva Uygulaması",
+    birim: "M2" as BirimTuru,
+    malzemeler: [
+      { malzemeId: "fileli_kose_profili", sarfiyatOrani: 0.3, birimFiyat: 0 },
+      { malzemeId: "dontati_filesi", sarfiyatOrani: 0.3, birimFiyat: 0 },
+      { malzemeId: "brüt_beton_astari", sarfiyatOrani: 0.24, birimFiyat: 0 },
+      { malzemeId: "isi_levha_sivasi", sarfiyatOrani: 0.2, birimFiyat: 0 }
+    ],
+    temelImalat: true
+  },
+  {
+    id: "imalat_1737222716812",
+    adi: "Anolu Kaba Sıva",
+    birim: "M2" as BirimTuru,
+    malzemeler: [
+      { malzemeId: "kum", sarfiyatOrani: 0.2, birimFiyat: 0 },
+      { malzemeId: "cimento", sarfiyatOrani: 0.03, birimFiyat: 0 },
+      { malzemeId: "ano_citasi", sarfiyatOrani: 0.2, birimFiyat: 0 },
+      { malzemeId: "brüt_beton_astari", sarfiyatOrani: 0.02, birimFiyat: 0 }
+    ],
+    temelImalat: true
+  },
+  {
+    id: "imalat_1737222845828",
+    adi: "Asansör ve Şaft içi El Alçısı Uygulaması",
+    birim: "M2" as BirimTuru,
+    malzemeler: [
+      { malzemeId: "perlitli_siva_alcisi", sarfiyatOrani: 0.22857, birimFiyat: 0 }
+    ],
+    temelImalat: true
+  },
+  {
+    id: "imalat_1737222893748",
+    adi: "Asansör Kovası Brüt Yüzeylere Boya Yapılması",
+    birim: "M2" as BirimTuru,
+    malzemeler: [
+      { malzemeId: "tavan_boyasi", sarfiyatOrani: 0.2, birimFiyat: 0 }
+    ],
+    temelImalat: true
+  },
+  {
+    id: "imalat_1737222935403",
+    adi: "Tavan Alçı + Saten",
+    birim: "M2" as BirimTuru,
+    malzemeler: [
+      { malzemeId: "makine_alci", sarfiyatOrani: 0.57, birimFiyat: 0 },
+      { malzemeId: "perlitli_siva_alcisi", sarfiyatOrani: 0.24, birimFiyat: 0 },
+      { malzemeId: "brut_beton_astari", sarfiyatOrani: 0.01, birimFiyat: 0 },
+      { malzemeId: "saten_alci", sarfiyatOrani: 0.04, birimFiyat: 0 }
+    ],
+    temelImalat: true
+  },
+  {
+    id: "imalat_1737223052013",
+    adi: "Bodrum Duvar ve Tavan Mantolaması",
+    birim: "M2" as BirimTuru,
+    malzemeler: [
+      { malzemeId: "eps_5cm", sarfiyatOrani: 0.83, birimFiyat: 0 },
+      { malzemeId: "tasyunu_120_5", sarfiyatOrani: 0.22, birimFiyat: 0 },
+      { malzemeId: "isi_levha_sivasi", sarfiyatOrani: 0.19, birimFiyat: 0 },
+      { malzemeId: "isi_levha_yapistirici", sarfiyatOrani: 0.19, birimFiyat: 0 },
+      { malzemeId: "celik_civi_dubel", sarfiyatOrani: 6, birimFiyat: 0 },
+      { malzemeId: "donati_filesi", sarfiyatOrani: 1.1, birimFiyat: 0 },
+      { malzemeId: "fileli_kose_profili", sarfiyatOrani: 0.3, birimFiyat: 0 }
+    ],
+    temelImalat: true
+  },
+  {
+    id: "imalat_1737223236780",
+    adi: "Cephe Mantolama + Fileli Sıva+ Dekoratif Sıva + Boya",
+    birim: "M2" as BirimTuru,
+    malzemeler: [
+      { malzemeId: "tasyunu_120_5", sarfiyatOrani: 0.21, birimFiyat: 0 },
+      { malzemeId: "tasyunu_120_3", sarfiyatOrani: 0.0693, birimFiyat: 0 },
+      { malzemeId: "eps_5cm", sarfiyatOrani: 0.777, birimFiyat: 0 },
+      { malzemeId: "isi_levha_sivasi", sarfiyatOrani: 0.2, birimFiyat: 0 },
+      { malzemeId: "isi_levha_yapistirici", sarfiyatOrani: 0.2, birimFiyat: 0 },
+      { malzemeId: "celik_civi_dubel", sarfiyatOrani: 6, birimFiyat: 0 },
+      { malzemeId: "dıs_cephe_boya_astari", sarfiyatOrani: 0.022, birimFiyat: 0 },
+      { malzemeId: "dekoratif_siva", sarfiyatOrani: 0.14, birimFiyat: 0 },
+      { malzemeId: "brut_beton_astari", sarfiyatOrani: 0.00833333333, birimFiyat: 0 },
+      { malzemeId: "dıs_cephe_silikonlu_boya", sarfiyatOrani: 0.0125, birimFiyat: 0 },
+      { malzemeId: "fileli_kose_profili", sarfiyatOrani: 0.5, birimFiyat: 0 }
+    ],
+    temelImalat: true
   }
 ];
 

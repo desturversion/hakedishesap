@@ -48,14 +48,19 @@ export default function MaliyetHesaplamaForm({
       sarfiyatOrani: malzeme.sarfiyatOrani
     }));
 
-    // Seçili malzemeleri sıfırla
-    setSecilenMalzemeler({});
+    // Seçili malzemeleri otomatik olarak ayarla
+    const yeniSecilenMalzemeler = malzemeler.reduce((acc, malzeme) => {
+      acc[malzeme.id] = true;
+      return acc;
+    }, {} as { [key: string]: boolean });
+
+    setSecilenMalzemeler(yeniSecilenMalzemeler);
 
     onChange({
       ...data,
       imalatId,
       malzemeler,
-      secilenMalzemeler: {},
+      secilenMalzemeler: yeniSecilenMalzemeler,
       secilenDuvarMalzeme: undefined,
       secilenDuvarKalinlik: undefined
     });
