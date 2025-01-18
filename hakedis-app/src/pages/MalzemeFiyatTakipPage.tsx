@@ -25,53 +25,53 @@ import { MalzemeFiyatTakip, AmbalajTuru, BirimTuru, AMBALAJ_SECENEKLERI } from '
 import { getMalzemeFiyatlari, kaydetMalzemeFiyat, silMalzemeFiyat, guncelleOtomatikFiyatlar, topluMalzemeEkle } from '../services/malzemeFiyatService';
 import { MalzemeFiyatTakipTablosu } from '../components/MalzemeFiyatTakip';
 
-const varsayilanMalzemeler = [
-  { adi: 'MAKİNA ALÇI', birim: 'KG', birimFiyat: 3.25, ambalajTuru: 'torba', ambalajMiktari: 35 },
-  { adi: 'PERLİTLİ SIVA ALÇI', birim: 'KG', birimFiyat: 3.25, ambalajTuru: 'torba', ambalajMiktari: 35 },
-  { adi: 'ALÇI KÖŞE PROFİLİ', birim: 'MT', birimFiyat: 10.02, ambalajTuru: 'adet' },
-  { adi: 'SIVA FİLESİ 75 GR', birim: 'M2', birimFiyat: 8.00, ambalajTuru: 'adet' },
-  { adi: 'BRÜT BETON ASTARI', birim: 'KG', birimFiyat: 17.50, ambalajTuru: 'kova', ambalajMiktari: 20 },
-  { adi: 'SATEN ALÇI', birim: 'KG', birimFiyat: 3.50, ambalajTuru: 'torba', ambalajMiktari: 35 },
-  { adi: 'KONSANTRE ASTAR', birim: 'KG', birimFiyat: 29.00, ambalajTuru: 'kova', ambalajMiktari: 20 },
-  { adi: 'İÇ CEPHE SİLİKONLU BOYA', birim: 'KG', birimFiyat: 17.50, ambalajTuru: 'kova', ambalajMiktari: 25 },
-  { adi: 'DONATİ FİLESİ 165 GR', birim: 'M2', birimFiyat: 8.10, ambalajTuru: 'adet' },
-  { adi: 'FİLELİ KÖŞE PROFİL', birim: 'MT', birimFiyat: 11.17, ambalajTuru: 'adet' },
-  { adi: 'LEVHA SIVASI', birim: 'KG', birimFiyat: 3.28, ambalajTuru: 'torba', ambalajMiktari: 25 },
-  { adi: 'PLASTİK BEYAZ BOYA', birim: 'KG', birimFiyat: 14.00, ambalajTuru: 'kova', ambalajMiktari: 25 },
-  { adi: 'KUM', birim: 'M3', birimFiyat: 1350.00, ambalajTuru: 'adet' },
-  { adi: 'ÇİMENTO', birim: 'KG', birimFiyat: 2.23, ambalajTuru: 'torba', ambalajMiktari: 50 },
-  { adi: 'ANO ÇITASI', birim: 'MT', birimFiyat: 25.00, ambalajTuru: 'adet' },
-  { adi: 'TAVAN BOYASI', birim: 'KG', birimFiyat: 14.00, ambalajTuru: 'kova', ambalajMiktari: 20 },
-  { adi: 'TAŞYÜNÜ 120/5', birim: 'M2', birimFiyat: 120.00, ambalajTuru: 'adet' },
-  { adi: 'LEVHA YAPIŞTIRICI', birim: 'KG', birimFiyat: 3.28, ambalajTuru: 'torba', ambalajMiktari: 25 },
-  { adi: 'ÇELİK ÇİVİLİ DÜBEL 11,5 CM', birim: 'AD', birimFiyat: 2.21, ambalajTuru: 'adet' },
-  { adi: 'DIŞ CEPHE SİLİKONLU BOYA', birim: 'KG', birimFiyat: 32.50, ambalajTuru: 'kova', ambalajMiktari: 25 },
-  { adi: 'DIŞ CEPHE BOYA ASTARI', birim: 'KG', birimFiyat: 32.50, ambalajTuru: 'kova', ambalajMiktari: 20 },
-  { adi: 'TAŞYÜNÜ 120/3', birim: 'M2', birimFiyat: 78.00, ambalajTuru: 'adet' },
-  { adi: 'ÇELİK ÇİVİLİ DÜBEL 13,5 CM', birim: 'AD', birimFiyat: 2.21, ambalajTuru: 'adet' },
-  { adi: 'DEKORATİF SIVA', birim: 'KG', birimFiyat: 4.2268, ambalajTuru: 'torba', ambalajMiktari: 25 },
-  { adi: 'SERAMİK YAPIŞTIRICI', birim: 'KG', birimFiyat: 5.2, ambalajTuru: 'torba', ambalajMiktari: 25 },
-  { adi: 'DERZ DOLGU', birim: 'KG', birimFiyat: 6, ambalajTuru: 'torba', ambalajMiktari: 20 },
-  { adi: 'SERAMİK KÖŞE PROFİLİ', birim: 'MT', birimFiyat: 11.6, ambalajTuru: 'adet' },
-  { adi: 'BAKLAVA DİLİMLİ ALÇI KÖŞEBENTİ', birim: 'MT', birimFiyat: 10.02, ambalajTuru: 'adet' },
-  { adi: 'DEKORATİF SIVA ASTARI', birim: 'KG', birimFiyat: 27.50, ambalajTuru: 'kova', ambalajMiktari: 20 },
-  { adi: 'KALİBEL', birim: 'M2', birimFiyat: 114.20, ambalajTuru: 'adet' },
-  { adi: 'ÇİMENTO ESASLI SÜRME SU YALITIMI', birim: 'KG', birimFiyat: 36.00, ambalajTuru: 'torba', ambalajMiktari: 25 },
-  { adi: 'PAH BANDI', birim: 'MT', birimFiyat: 19.00, ambalajTuru: 'adet' },
-  { adi: 'XPE 30 KG/M3 BASINÇ DAYANIMI', birim: 'M2', birimFiyat: 46.00, ambalajTuru: 'adet' },
-  { adi: 'SERAMİK KLİPS', birim: 'AD', birimFiyat: 0.25, ambalajTuru: 'adet' },
-  { adi: 'SERAMİK TAKOZ', birim: 'AD', birimFiyat: 0.45, ambalajTuru: 'adet' },
-  { adi: 'ÇİMENTO ESASLI SIVA', birim: 'KG', birimFiyat: 3.28, ambalajTuru: 'torba', ambalajMiktari: 35 },
-  { adi: 'EPS 5 CM/22 YOĞUNLUK', birim: 'M2', birimFiyat: 95.73, ambalajTuru: 'adet' },
-  { adi: '300-30 plak', birim: 'AD', birimFiyat: 295, ambalajTuru: 'adet' },
-  { adi: '0.60 mm kalın.gizli taşıyıcı profil (alüminyum)', birim: 'MT', birimFiyat: 17.5, ambalajTuru: 'adet' },
-  { adi: '1.00 mm kalın.gizli taşıyıcı alüminyum kenar u profil', birim: 'MT', birimFiyat: 17.5, ambalajTuru: 'adet' },
-  { adi: '0.50 mm birleşim klipsi', birim: 'AD', birimFiyat: 2.45, ambalajTuru: 'adet' },
-  { adi: '0.50 mm taşıyıcı ek parça', birim: 'AD', birimFiyat: 1.74, ambalajTuru: 'adet' },
-  { adi: 'Çelik dübel (6x45 vida, kovan, 1-demir ve somun)', birim: 'AD', birimFiyat: 2.25, ambalajTuru: 'adet' },
-  { adi: 'Çiftli yay (0.60 mm kalın.yay çeliğinden mamul)', birim: 'AD', birimFiyat: 2.67, ambalajTuru: 'adet' },
-  { adi: 'Askı çubuğu 40 cm (4 mm galvanizli çubuk)', birim: 'AD', birimFiyat: 4.6, ambalajTuru: 'adet' },
-  { adi: 'Vida ve plastik dübel', birim: 'AD', birimFiyat: 0.7, ambalajTuru: 'adet' }
+export const varsayilanMalzemeler = [
+  { adi: 'MAKİNA ALÇI', birim: 'KG' as BirimTuru, birimFiyat: 3.25, ambalajTuru: 'torba', ambalajMiktari: 35 },
+  { adi: 'PERLİTLİ SIVA ALÇI', birim: 'KG' as BirimTuru, birimFiyat: 3.25, ambalajTuru: 'torba', ambalajMiktari: 35 },
+  { adi: 'ALÇI KÖŞE PROFİLİ', birim: 'M' as BirimTuru, birimFiyat: 10.02, ambalajTuru: 'adet' },
+  { adi: 'SIVA FİLESİ 75 GR', birim: 'M2' as BirimTuru, birimFiyat: 8.00, ambalajTuru: 'adet' },
+  { adi: 'BRÜT BETON ASTARI', birim: 'KG' as BirimTuru, birimFiyat: 17.50, ambalajTuru: 'kova', ambalajMiktari: 20 },
+  { adi: 'SATEN ALÇI', birim: 'KG' as BirimTuru, birimFiyat: 3.50, ambalajTuru: 'torba', ambalajMiktari: 35 },
+  { adi: 'KONSANTRE ASTAR', birim: 'KG' as BirimTuru, birimFiyat: 29.00, ambalajTuru: 'kova', ambalajMiktari: 20 },
+  { adi: 'İÇ CEPHE SİLİKONLU BOYA', birim: 'KG' as BirimTuru, birimFiyat: 17.50, ambalajTuru: 'kova', ambalajMiktari: 25 },
+  { adi: 'DONATİ FİLESİ 165 GR', birim: 'M2' as BirimTuru, birimFiyat: 8.10, ambalajTuru: 'adet' },
+  { adi: 'FİLELİ KÖŞE PROFİL', birim: 'M' as BirimTuru, birimFiyat: 11.17, ambalajTuru: 'adet' },
+  { adi: 'LEVHA SIVASI', birim: 'KG' as BirimTuru, birimFiyat: 3.28, ambalajTuru: 'torba', ambalajMiktari: 25 },
+  { adi: 'PLASTİK BEYAZ BOYA', birim: 'KG' as BirimTuru, birimFiyat: 14.00, ambalajTuru: 'kova', ambalajMiktari: 25 },
+  { adi: 'KUM', birim: 'M3' as BirimTuru, birimFiyat: 1350.00, ambalajTuru: 'adet' },
+  { adi: 'ÇİMENTO', birim: 'KG' as BirimTuru, birimFiyat: 2.23, ambalajTuru: 'torba', ambalajMiktari: 50 },
+  { adi: 'ANO ÇITASI', birim: 'M' as BirimTuru, birimFiyat: 25.00, ambalajTuru: 'adet' },
+  { adi: 'TAVAN BOYASI', birim: 'KG' as BirimTuru, birimFiyat: 14.00, ambalajTuru: 'kova', ambalajMiktari: 20 },
+  { adi: 'TAŞYÜNÜ 120/5', birim: 'M2' as BirimTuru, birimFiyat: 120.00, ambalajTuru: 'adet' },
+  { adi: 'LEVHA YAPIŞTIRICI', birim: 'KG' as BirimTuru, birimFiyat: 3.28, ambalajTuru: 'torba', ambalajMiktari: 25 },
+  { adi: 'ÇELİK ÇİVİLİ DÜBEL 11,5 CM', birim: 'AD' as BirimTuru, birimFiyat: 2.21, ambalajTuru: 'adet' },
+  { adi: 'DIŞ CEPHE SİLİKONLU BOYA', birim: 'KG' as BirimTuru, birimFiyat: 32.50, ambalajTuru: 'kova', ambalajMiktari: 25 },
+  { adi: 'DIŞ CEPHE BOYA ASTARI', birim: 'KG' as BirimTuru, birimFiyat: 32.50, ambalajTuru: 'kova', ambalajMiktari: 20 },
+  { adi: 'TAŞYÜNÜ 120/3', birim: 'M2' as BirimTuru, birimFiyat: 78.00, ambalajTuru: 'adet' },
+  { adi: 'ÇELİK ÇİVİLİ DÜBEL 13,5 CM', birim: 'AD' as BirimTuru, birimFiyat: 2.21, ambalajTuru: 'adet' },
+  { adi: 'DEKORATİF SIVA', birim: 'KG' as BirimTuru, birimFiyat: 4.2268, ambalajTuru: 'torba', ambalajMiktari: 25 },
+  { adi: 'SERAMİK YAPIŞTIRICI', birim: 'KG' as BirimTuru, birimFiyat: 5.2, ambalajTuru: 'torba', ambalajMiktari: 25 },
+  { adi: 'DERZ DOLGU', birim: 'KG' as BirimTuru, birimFiyat: 6, ambalajTuru: 'torba', ambalajMiktari: 20 },
+  { adi: 'SERAMİK KÖŞE PROFİLİ', birim: 'M' as BirimTuru, birimFiyat: 11.6, ambalajTuru: 'adet' },
+  { adi: 'BAKLAVA DİLİMLİ ALÇI KÖŞEBENTİ', birim: 'M' as BirimTuru, birimFiyat: 10.02, ambalajTuru: 'adet' },
+  { adi: 'DEKORATİF SIVA ASTARI', birim: 'KG' as BirimTuru, birimFiyat: 27.50, ambalajTuru: 'kova', ambalajMiktari: 20 },
+  { adi: 'KALİBEL', birim: 'M2' as BirimTuru, birimFiyat: 114.20, ambalajTuru: 'adet' },
+  { adi: 'ÇİMENTO ESASLI SÜRME SU YALITIMI', birim: 'KG' as BirimTuru, birimFiyat: 36.00, ambalajTuru: 'torba', ambalajMiktari: 25 },
+  { adi: 'PAH BANDI', birim: 'M' as BirimTuru, birimFiyat: 19.00, ambalajTuru: 'adet' },
+  { adi: 'XPE 30 KG/M3 BASINÇ DAYANIMI', birim: 'M2' as BirimTuru, birimFiyat: 46.00, ambalajTuru: 'adet' },
+  { adi: 'SERAMİK KLİPS', birim: 'AD' as BirimTuru, birimFiyat: 0.25, ambalajTuru: 'adet' },
+  { adi: 'SERAMİK TAKOZ', birim: 'AD' as BirimTuru, birimFiyat: 0.45, ambalajTuru: 'adet' },
+  { adi: 'ÇİMENTO ESASLI SIVA', birim: 'KG' as BirimTuru, birimFiyat: 3.28, ambalajTuru: 'torba', ambalajMiktari: 35 },
+  { adi: 'EPS 5 CM/22 YOĞUNLUK', birim: 'M2' as BirimTuru, birimFiyat: 95.73, ambalajTuru: 'adet' },
+  { adi: '300-30 plak', birim: 'AD' as BirimTuru, birimFiyat: 295, ambalajTuru: 'adet' },
+  { adi: '0.60 mm kalın.gizli taşıyıcı profil (alüminyum)', birim: 'M' as BirimTuru, birimFiyat: 17.5, ambalajTuru: 'adet' },
+  { adi: '1.00 mm kalın.gizli taşıyıcı alüminyum kenar u profil', birim: 'M' as BirimTuru, birimFiyat: 17.5, ambalajTuru: 'adet' },
+  { adi: '0.50 mm birleşim klipsi', birim: 'AD' as BirimTuru, birimFiyat: 2.45, ambalajTuru: 'adet' },
+  { adi: '0.50 mm taşıyıcı ek parça', birim: 'AD' as BirimTuru, birimFiyat: 1.74, ambalajTuru: 'adet' },
+  { adi: 'Çelik dübel (6x45 vida, kovan, 1-demir ve somun)', birim: 'AD' as BirimTuru, birimFiyat: 2.25, ambalajTuru: 'adet' },
+  { adi: 'Çiftli yay (0.60 mm kalın.yay çeliğinden mamul)', birim: 'AD' as BirimTuru, birimFiyat: 2.67, ambalajTuru: 'adet' },
+  { adi: 'Askı çubuğu 40 cm (4 mm galvanizli çubuk)', birim: 'AD' as BirimTuru, birimFiyat: 4.6, ambalajTuru: 'adet' },
+  { adi: 'Vida ve plastik dübel', birim: 'AD' as BirimTuru, birimFiyat: 0.7, ambalajTuru: 'adet' }
 ];
 
 export const MalzemeFiyatTakipPage: React.FC = () => {
@@ -81,12 +81,12 @@ export const MalzemeFiyatTakipPage: React.FC = () => {
   const [yeniMalzeme, setYeniMalzeme] = useState<Partial<MalzemeFiyatTakip>>({
     adi: '',
     birim: 'AD' as BirimTuru,
-    birimFiyat: null,
+    birimFiyat: undefined,
     otomatikGuncelleme: false,
     sarfiyatOrani: 1
   });
-  const [secilenAmbalajTuru, setSecilenAmbalajTuru] = useState<AmbalajTuru | ''>('');
-  const [secilenAmbalajMiktari, setSecilenAmbalajMiktari] = useState<number | ''>('');
+  const [secilenAmbalajTuru, setSecilenAmbalajTuru] = useState<AmbalajTuru | undefined>(undefined);
+  const [secilenAmbalajMiktari, setSecilenAmbalajMiktari] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     const malzemeler = getMalzemeFiyatlari();
@@ -111,12 +111,12 @@ export const MalzemeFiyatTakipPage: React.FC = () => {
     setYeniMalzeme({
       adi: '',
       birim: 'AD' as BirimTuru,
-      birimFiyat: null,
+      birimFiyat: undefined,
       otomatikGuncelleme: false,
       sarfiyatOrani: 1
     });
-    setSecilenAmbalajTuru('');
-    setSecilenAmbalajMiktari('');
+    setSecilenAmbalajTuru(undefined);
+    setSecilenAmbalajMiktari(undefined);
   };
 
   const handleYeniMalzemeKaydet = () => {
@@ -220,13 +220,14 @@ export const MalzemeFiyatTakipPage: React.FC = () => {
               <FormControl fullWidth sx={{ mt: 2 }}>
                 <InputLabel>Ambalaj Türü</InputLabel>
                 <Select
-                  value={secilenAmbalajTuru}
+                  value={secilenAmbalajTuru || undefined}
                   label="Ambalaj Türü"
                   onChange={(e) => {
                     setSecilenAmbalajTuru(e.target.value as AmbalajTuru);
-                    setSecilenAmbalajMiktari('');
+                    setSecilenAmbalajMiktari(undefined);
                   }}
                 >
+                  <MenuItem value={undefined}>Seçiniz</MenuItem>
                   <MenuItem value="adet">Adet</MenuItem>
                   <MenuItem value="torba">Torba</MenuItem>
                   <MenuItem value="kova">Kova</MenuItem>
@@ -237,10 +238,11 @@ export const MalzemeFiyatTakipPage: React.FC = () => {
                 <FormControl fullWidth sx={{ mt: 2 }}>
                   <InputLabel>Ambalaj Miktarı</InputLabel>
                   <Select
-                    value={secilenAmbalajMiktari}
+                    value={secilenAmbalajMiktari || undefined}
                     label="Ambalaj Miktarı"
                     onChange={(e) => setSecilenAmbalajMiktari(Number(e.target.value))}
                   >
+                    <MenuItem value={undefined}>Seçiniz</MenuItem>
                     {AMBALAJ_SECENEKLERI
                       .find(a => a.tur === secilenAmbalajTuru)
                       ?.miktarlar.map(miktar => (

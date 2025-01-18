@@ -3,7 +3,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import HomeIcon from '@mui/icons-material/Home';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MaliyetHesaplamaData, MaliyetSonuc, ImalatTuru, MalzemeFiyatTakip } from '../types/malzeme';
+import { MaliyetHesaplamaData, MaliyetSonuc, ImalatTuru, MalzemeFiyatTakip, BirimTuru } from '../types/malzeme';
 import MaliyetHesaplamaForm from '../components/MaliyetHesaplamaForm';
 import MaliyetSonucBilesen from '../components/MaliyetSonucBilesen';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -81,7 +81,7 @@ const defaultImalatTurleri: ImalatTuru[] = [
   {
     id: '1',
     adi: 'Duvar İmalatı',
-    birim: 'm²',
+    birim: 'M2' as BirimTuru,
     malzemeler: [
       { malzemeId: 'duvar_malzemesi', sarfiyatOrani: 1, birimFiyat: 0 },
       { malzemeId: 'cimento', sarfiyatOrani: 0.5, birimFiyat: 0 },
@@ -122,7 +122,7 @@ const defaultImalatTurleri: ImalatTuru[] = [
   {
     id: '2',
     adi: 'Dış Cephe Mantolama',
-    birim: 'm²',
+    birim: 'M2' as BirimTuru,
     malzemeler: [
       { malzemeId: 'yapisalYapistirici', sarfiyatOrani: 5, birimFiyat: 0 },
       { malzemeId: 'eps', sarfiyatOrani: 1, birimFiyat: 0 },
@@ -137,7 +137,7 @@ const defaultImalatTurleri: ImalatTuru[] = [
   {
     id: '3',
     adi: 'İç Cephe Sıva',
-    birim: 'm²',
+    birim: 'M2' as BirimTuru,
     malzemeler: [
       { malzemeId: 'hazirSiva', sarfiyatOrani: 18, birimFiyat: 0 },
       { malzemeId: 'sиvaAstar', sarfiyatOrani: 0.15, birimFiyat: 0 },
@@ -160,7 +160,18 @@ export default function MalzemeMaliyetPage() {
   const [imalatTurleri, setImalatTurleri] = useState<ImalatTuru[]>(getImalatTurleri());
   const { malzemeAdiMap: initialMalzemeAdiMap, malzemeBirimMap: initialMalzemeBirimMap } = getMalzemeHaritalari();
   const [malzemeAdiMap, setMalzemeAdiMap] = useState<{ [key: string]: string }>(initialMalzemeAdiMap);
-  const [malzemeBirimMap, setMalzemeBirimMap] = useState<{ [key: string]: string }>(initialMalzemeBirimMap);
+  const [malzemeBirimMap, setMalzemeBirimMap] = useState<{ [key: string]: BirimTuru }>({
+    '1': 'M2',
+    '2': 'M2',
+    '3': 'M2',
+    '4': 'M2',
+    '5': 'M2',
+    '6': 'M2',
+    '7': 'M2',
+    '8': 'M2',
+    '9': 'M2',
+    '10': 'M2',
+  });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [secilenImalatId, setSecilenImalatId] = useState<string>('');
   const [duzenlenenSarfiyatlar, setDuzenlenenSarfiyatlar] = useState<{
@@ -173,13 +184,13 @@ export default function MalzemeMaliyetPage() {
   const [yeniMalzeme, setYeniMalzeme] = useState<{
     id: string;
     adi: string;
-    birim: string;
+    birim: BirimTuru;
     birimFiyat: number;
   }>({
     id: '',
     adi: '',
-    birim: '',
-    birimFiyat: 0
+    birim: 'M2',
+    birimFiyat: 0,
   });
   const [yeniImalatDialogOpen, setYeniImalatDialogOpen] = useState(false);
   const [yeniImalat, setYeniImalat] = useState<{
@@ -279,7 +290,7 @@ export default function MalzemeMaliyetPage() {
     setYeniMalzeme({
       id: '',
       adi: '',
-      birim: '',
+      birim: 'M2',
       birimFiyat: 0
     });
   };
@@ -293,10 +304,6 @@ export default function MalzemeMaliyetPage() {
 
     // Benzersiz ID oluştur
     const yeniId = `ozel_${Date.now()}`;
-    const yeniMalzemeBilgisi = {
-      ...yeniMalzeme,
-      id: yeniId
-    };
 
     // Malzeme haritalarını güncelle
     setMalzemeAdiMap(prev => ({
@@ -423,7 +430,7 @@ export default function MalzemeMaliyetPage() {
 
       return {
         adi: malzemeAdiMap[malzeme.malzemeId],
-        birim: malzemeBirimMap[malzeme.malzemeId],
+        birim: malzemeBirimMap[malzeme.malzemeId] as BirimTuru,
         birimFiyat,
         gerekenMiktar,
         toplamMaliyet
@@ -514,7 +521,7 @@ export default function MalzemeMaliyetPage() {
       adi: yeniImalat.adi,
       malzemeler: [],
       duvarOzellikleri: undefined,
-      birim: 'm²'
+      birim: 'M2' as BirimTuru
     };
 
     const yeniImalatListesi = [...imalatTurleri, yeniImalatBilgisi];
@@ -754,11 +761,8 @@ export default function MalzemeMaliyetPage() {
                       />
                       <ListItemSecondaryAction>
                         <Checkbox
-                          edge="end"
                           checked={secilenYeniMalzemeler.includes(malzeme.id)}
-                          disabled={mevcutMalzeme}
-                          onClick={(e) => e.stopPropagation()}
-                          onChange={(e) => handleMalzemeSecimToggle(malzeme.id)}
+                          onChange={() => handleMalzemeSecimToggle(malzeme.id)}
                         />
                       </ListItemSecondaryAction>
                     </ListItem>
@@ -805,7 +809,11 @@ export default function MalzemeMaliyetPage() {
                   fullWidth
                   label="Birim (m², kg, adet vb.)"
                   value={yeniMalzeme.birim}
-                  onChange={(e) => setYeniMalzeme(prev => ({ ...prev, birim: e.target.value }))}
+                  onChange={(e) => {
+                    const birimStr = e.target.value.toUpperCase();
+                    const birim = (['AD', 'KG', 'M3', 'M2', 'M', 'TOP', 'TON'].includes(birimStr) ? birimStr : 'M2') as BirimTuru;
+                    setYeniMalzeme(prev => ({ ...prev, birim }));
+                  }}
                   InputLabelProps={{
                     shrink: true,
                     sx: {

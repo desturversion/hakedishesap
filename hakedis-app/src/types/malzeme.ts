@@ -49,7 +49,7 @@ export const AMBALAJ_SECENEKLERI: AmbalajSecenekleri[] = [
 export interface ImalatTuru {
   id: string;
   adi: string;
-  birim: string;
+  birim: BirimTuru;
   malzemeler: {
     malzemeId: string;
     sarfiyatOrani: number;
@@ -72,7 +72,7 @@ export interface MaliyetSonuc {
   toplamMiktar: number;
   malzemeler: {
     adi: string;
-    birim: string;
+    birim: BirimTuru;
     birimFiyat: number;  // Artık kullanılmıyor ama geriye uyumluluk için tutuyoruz
     gerekenMiktar: number;
     toplamMaliyet: number;  // Artık kullanılmıyor ama geriye uyumluluk için tutuyoruz

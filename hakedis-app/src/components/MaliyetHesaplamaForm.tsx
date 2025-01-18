@@ -12,13 +12,6 @@ interface MaliyetHesaplamaFormProps {
   malzemeFiyatlari: MalzemeFiyatTakip[];
 }
 
-// Varsayılan malzemeleri BirimTuru tipine uygun olarak güncelle
-const varsayilanMalzemeler: Malzeme[] = [
-  { id: '1', adi: 'Çimento', birim: 'KG' as BirimTuru, birimFiyat: 2.5, sarfiyatOrani: 1 },
-  { id: '2', adi: 'Kum', birim: 'M3' as BirimTuru, birimFiyat: 150, sarfiyatOrani: 1 },
-  { id: '3', adi: 'Tuğla', birim: 'AD' as BirimTuru, birimFiyat: 5, sarfiyatOrani: 1 }
-];
-
 export default function MaliyetHesaplamaForm({ 
   data, 
   imalatTurleri, 
@@ -49,7 +42,8 @@ export default function MaliyetHesaplamaForm({
     // Malzeme listesini oluştur
     const yeniMalzemeler = imalat.malzemeler.map(malzeme => {
       const malzemeFiyat = malzemeFiyatlari.find(m => m.id === malzeme.malzemeId);
-      const birim = malzemeBirimMap[malzeme.malzemeId].toUpperCase() as BirimTuru;
+      const birimStr = malzemeBirimMap[malzeme.malzemeId].toUpperCase();
+      const birim = (['AD', 'KG', 'M3', 'M2', 'M', 'TOP', 'TON'].includes(birimStr) ? birimStr : 'AD') as BirimTuru;
       return {
         id: malzeme.malzemeId,
         adi: malzemeAdiMap[malzeme.malzemeId],
@@ -59,18 +53,14 @@ export default function MaliyetHesaplamaForm({
       };
     });
 
-    // Tüm malzemeleri seçili hale getir
-    const yeniSecilenMalzemeler: { [key: string]: boolean } = {};
-    yeniMalzemeler.forEach(malzeme => {
-      yeniSecilenMalzemeler[malzeme.id] = true;
-    });
-    setSecilenMalzemeler(yeniSecilenMalzemeler);
+    // Seçili malzemeleri sıfırla
+    setSecilenMalzemeler({});
 
     onChange({
       ...data,
       imalatId,
       malzemeler: yeniMalzemeler,
-      secilenMalzemeler: yeniSecilenMalzemeler,
+      secilenMalzemeler: {},
       secilenDuvarMalzeme: undefined,
       secilenDuvarKalinlik: undefined
     });
@@ -98,16 +88,16 @@ export default function MaliyetHesaplamaForm({
       if (malzeme.id === 'duvar_malzemesi') {
         return {
           ...malzeme,
-          sarfiyatOrani: kalinlik.sarfiyat
+          sarfiyatOrani: kalinlik.sarfiyat // Burada sarfiyat oranı güncelleniyor
         };
       }
       // Çimento ve kum için harç oranını uygula
       if (malzeme.id === 'cimento' || malzeme.id === 'kum') {
         const orijinalMalzeme = secilenImalat?.malzemeler.find(m => m.malzemeId === malzeme.id);
         if (orijinalMalzeme) {
-          // Duvar kalınlığına göre harç oranını hesapla
-          const harcOrani = kalinlik.sarfiyat * kalinlik.harcOrani;
-          const yeniSarfiyatOrani = orijinalMalzeme.sarfiyatOrani * harcOrani;
+          // Harç oranını 18.5 ile çarp ve kalınlık azaldıkça azalt
+          const harcOrani = 18.5 * (kalinlik.sarfiyat / 100); // Kalınlık oranına göre ayarlama
+          const yeniSarfiyatOrani = orijinalMalzeme.sarfiyatOrani * harcOrani; // Sarfiyat oranı ile çarpılıyor
           return {
             ...malzeme,
             sarfiyatOrani: yeniSarfiyatOrani
@@ -161,41 +151,19 @@ export default function MaliyetHesaplamaForm({
   // Hesaplama butonuna tıklandığında
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Hesaplamada güncel fiyatları kullan
+    const yeniMalzemeler = data.malzemeler.map(malzeme => ({
+      ...malzeme,
+      birimFiyat: malzeme.guncelBirimFiyat || malzeme.birimFiyat
+    }));
 
-    // Duvar kalınlığına göre harç oranını belirle
-    let harcOrani = 1;
-    if (secilenImalat?.id === '1' && data.secilenDuvarMalzeme && data.secilenDuvarKalinlik) {
-      const duvarMalzeme = secilenImalat.duvarOzellikleri?.malzemeler.find(m => m.id === data.secilenDuvarMalzeme);
-      const kalinlik = duvarMalzeme?.kalinliklar.find(k => k.id === data.secilenDuvarKalinlik);
-      
-      if (kalinlik) {
-        harcOrani = kalinlik.harcOrani;
-      }
-    }
-
-    // Malzemeleri güncelle
-    const yeniMalzemeler = data.malzemeler.map(malzeme => {
-      let yeniSarfiyatOrani = malzeme.sarfiyatOrani;
-      
-      // Kum ve çimento için harç oranını uygula
-      if ((malzeme.id === 'cimento' || malzeme.id === 'kum') && secilenImalat?.id === '1') {
-        yeniSarfiyatOrani = malzeme.sarfiyatOrani * harcOrani;
-      }
-
-      return {
-        ...malzeme,
-        sarfiyatOrani: yeniSarfiyatOrani,
-        birimFiyat: malzeme.guncelBirimFiyat || malzeme.birimFiyat
-      };
-    });
-
-    // State'i güncelle
+    // Önce state'i güncelle
     onChange({
       ...data,
       malzemeler: yeniMalzemeler
     });
 
-    // Hesaplamayı başlat
+    // Sonra hesaplamayı başlat
     onSubmit();
   };
 
