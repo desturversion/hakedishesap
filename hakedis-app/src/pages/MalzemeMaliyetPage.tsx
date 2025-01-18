@@ -158,7 +158,7 @@ export default function MalzemeMaliyetPage() {
 
   const [sonuc, setSonuc] = useState<MaliyetSonuc | null>(null);
   const [imalatTurleri, setImalatTurleri] = useState<ImalatTuru[]>(getImalatTurleri());
-  const { malzemeAdiMap: initialMalzemeAdiMap, malzemeBirimMap: initialMalzemeBirimMap } = getMalzemeHaritalari();
+  const { malzemeAdiMap: initialMalzemeAdiMap } = getMalzemeHaritalari();
   const [malzemeAdiMap, setMalzemeAdiMap] = useState<{ [key: string]: string }>(initialMalzemeAdiMap);
   const [malzemeBirimMap, setMalzemeBirimMap] = useState<{ [key: string]: BirimTuru }>({
     '1': 'M2',
